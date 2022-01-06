@@ -1,37 +1,32 @@
 <template>
-    <li class="product">
+     <li class="product">
         <div class="product__data">
             <div class="product__image">
                 <img :src="image" alt="title" />
             </div>
             <div class="product__text">
                 <h3>{{ title }}</h3>
-                <h4>{{ author }}</h4>
+                <h5>Author: {{ author }}</h5>
+                <h6>Year: {{ year }}</h6>
+                <p>Description: <br> 
+                {{ description }}
+                </p>
             </div>
-        </div>
-        <div class="product__actions">
-            <base-button @click="addToCart">ADD TO CART</base-button>
+            <div class="price">{{ price }}</div>
+            <div class="qty">{{ quantity }}</div>
         </div>
     </li>
 </template>
 
-<script>
-export default {
-    props:['isbn13', 'image', 'title', 'author'],
-    methods: {
-        addToCart() {
-          return this.$store.dispatch('cart/addToCart', {id: this.isbn13});
-        }
-    }
-}
-
-</script>
 <style scoped>
 li {
   margin: 1.5rem auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border: 1.5px solid #003a37;
   padding: 1rem;
-  border-radius: 10px;
+}
+
+p {
+    font-size: 13px;
 }
 
 .product__data {
@@ -55,13 +50,8 @@ li {
   margin: 0 0 0.5rem 0;
 }
 
-.product__text h4 {
+.product__text h5, h6 {
   margin: 0;
 }
-
-.product__actions {
-  text-align: right;
-}
-
 
 </style>

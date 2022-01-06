@@ -1,4 +1,5 @@
 <template>
+    <load-item v-if="isLoading"></load-item>
     <ul>
         <product-item
         v-for="product in products" :key="product.isbn13"
@@ -16,6 +17,11 @@ export default {
     components: {
         ProductItem
     },
+    data() {
+        return {
+            isLoading: false
+        }
+    },
     computed: {
         products() {
             return this.$store.getters['home/books'];
@@ -23,11 +29,13 @@ export default {
     },
     methods: {
         async loadBooks() {
+            this.isLoading = true;
             try {
                 await this.$store.dispatch('home/loadBooks');
             } catch(error) {
                 this.error = error.message || 'Something went wrong!';
             }
+            this.isLoading = false;
         }
     },
     created() {
