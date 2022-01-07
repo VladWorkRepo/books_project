@@ -1,11 +1,13 @@
 <template>
     <load-item v-if="isLoading"></load-item>
-    <ul>
+    <ul v-else-if="hasBooks">
         <product-item
-        v-for="product in products" :key="product.isbn13"
+        v-for="product in products" :key="product.id"
+        :id="product.id"
         :image="product.image"
         :title="product.title"
         :author="product.author"
+        :price="product.price"
         ></product-item>
     </ul>
 </template>
@@ -25,6 +27,9 @@ export default {
     computed: {
         products() {
             return this.$store.getters['home/books'];
+        },
+        hasBooks() {
+            return !this.isLoading && this.$store.getters['home/hasBooks'];
         }
     },
     methods: {

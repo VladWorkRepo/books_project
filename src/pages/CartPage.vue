@@ -1,12 +1,25 @@
 <template>
-    <h2>Your products</h2>
-    <base-card>
+<h2>Your products</h2>
+<div class="container">
+    <div v-if="booksItem.length > 0">
         <ul>
-            <cart-item></cart-item>
+            <cart-item
+            v-for="item in booksItem" :key="item.id"
+            :id="item.id"
+            :image="item.image"
+            :title="item.title"
+            :author="item.author"
+            :price="item.price"
+            :quantity="item.quantity"
+            ></cart-item>
         </ul>
-    </base-card>
-    <h3>{{ total }}</h3>
-    <base-button>NEXT</base-button>
+        <div class="summary">
+            <p>Total: ${{ roundTotal }}</p>
+            <base-button link to="/cart/order">NEXT STEP</base-button>
+        </div>
+    </div>
+    <p v-else>You have no products in the cart yet!</p>
+</div>
 </template>
 
 <script>
@@ -16,13 +29,36 @@ export default {
     components: {
         CartItem
     },
-    computed: {
+    data() {
+        return {
 
+        }
+    },
+    computed: {
+        booksItem() {
+            return this.$store.getters['cart/products'];
+        },
+        total() {
+            return this.$store.getters['cart/total'];
+        },
+        roundTotal() {
+            return this.total.toFixed(2);
+        }
     }
 }
 </script>
 
 <style scoped>
+.container {
+  max-width: 50rem;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+}
 ul {
     list-style: none;
     margin: 2rem auto;
@@ -30,8 +66,18 @@ ul {
     padding: 0;
     max-width: 40rem;
 }
-h2 {
+h2, h3 {
     text-align: center;
 }
-
+p {
+    font-size: 20px;
+    font-weight: 700;
+}
+.summary {
+    display: flex;
+    padding: 10px 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 </style>

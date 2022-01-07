@@ -26,9 +26,9 @@
 }
 .load {
     display: flex;
-    min-height: 400px;
+    height: 100vh;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
 }
 :root {
 	--hue: 223;

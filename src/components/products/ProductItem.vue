@@ -17,15 +17,16 @@
 
 <script>
 export default {
-    props:['isbn13', 'image', 'title', 'author'],
+    props:['id', 'image', 'title', 'author', 'price'],
     methods: {
         addToCart() {
-          return this.$store.dispatch('cart/addToCart', {id: this.isbn13});
+          return this.$store.dispatch('cart/addToCart', {id: this.id});
         }
     }
 }
 
 </script>
+
 <style scoped>
 li {
   margin: 1.5rem auto;
@@ -50,6 +51,7 @@ li {
 .product__text {
     margin-top: 10px;
     margin-left: 10px;
+    
 }
 .product__text h3 {
   margin: 0 0 0.5rem 0;

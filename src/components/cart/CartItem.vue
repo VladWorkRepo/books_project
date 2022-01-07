@@ -7,16 +7,29 @@
             <div class="product__text">
                 <h3>{{ title }}</h3>
                 <h5>Author: {{ author }}</h5>
-                <h6>Year: {{ year }}</h6>
+                <!-- <h6>Year: {{ year }}</h6>
                 <p>Description: <br> 
                 {{ description }}
-                </p>
+                </p> -->
             </div>
-            <div class="price">{{ price }}</div>
-            <div class="qty">{{ quantity }}</div>
+            <div class="summary">
+                <div class="price">${{ totalPrice }}</div>
+                <div class="qty">Quantity: {{ quantity }}</div>
+            </div>
         </div>
     </li>
 </template>
+
+<script>
+export default {
+    props: ['id', 'image', 'title', 'author', 'price', 'quantity'],
+    computed: {
+        totalPrice() {
+            return (this.price * this.quantity).toFixed(2);
+        }
+    }
+}
+</script>
 
 <style scoped>
 li {
@@ -26,7 +39,7 @@ li {
 }
 
 p {
-    font-size: 13px;
+  font-size: 13px;
 }
 
 .product__data {
@@ -53,5 +66,20 @@ p {
 .product__text h5, h6 {
   margin: 0;
 }
+
+.summary {
+    display: flex;
+    width: 30%;
+    padding: 10px 15px 10px 15px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: 700;
+}
+
 
 </style>
