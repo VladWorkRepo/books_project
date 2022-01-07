@@ -33,11 +33,11 @@
         <div class="form-control" :class="{invalid: !postalCode.isValid}">
             <label for="postalCode">Postal Code</label>
             <input 
-            type="number" 
+            type="text" 
             placeholder="xx-xxx"
-            pattern="[0-9]{2}\-[0-9]{3}" 
+            pattern="[0-9]{2}[-]{1}[0-9]{3}"
             id="postalCode" 
-            v-model="postalCode.value"
+            @input="postalCodeChecker"
             @blur="clearValidity('postalCode')"
             />
             <div v-if="!postalCode.isValid">Postal Code must not be empty (example: 01-234).</div>
@@ -45,8 +45,9 @@
         <div class="form-control" :class="{invalid: !number.isValid}">
             <label for="number">Phone number</label>
             <input 
-            type="number" 
+            type="tel" 
             placeholder="+48 XXX XXX XXX" 
+            pattern="[+]{1}[0-9]{2}[' ']{1}[0-9]{3}[' ']{1}[0-9]{3}[' ']{1}[0-9]{3}"
             id="number" 
             v-model.trim="number.value"
             @blur="clearValidity('number')"
@@ -56,7 +57,7 @@
         <div class="form-control" :class="{invalid: !email.isValid}">
             <label for="email">E-Mail</label>
             <input 
-            type="text" 
+            type="email" 
             id="email" 
             placeholder="xxx@yyy.zz"
             v-model.trim="email.value"
@@ -121,6 +122,12 @@ export default {
         }
     },
     methods: {
+        postalCodeChecker(event) {
+            if(event.target.value.length == 2) {
+               event.target.value += '-';
+            }
+            this.postalCode.value = event.target.value;
+        },
         checkDiscountCode() {
             this.discountCode.isValid = true;
             if(this.discountCode.value !== 'TUTORE12') {
@@ -144,15 +151,18 @@ export default {
                 this.place.isValid = false;
                 this.formIsValid = false;
             }
-            if(this.postalCode.value === '' || this.postalCode.value.length > 5) {
+            if(this.postalCode.value === '' || this.postalCode.value.length > 6 || this.postalCode.value.length < 6) {
                 this.postalCode.isValid = false;
                 this.formIsValid = false;
             }
-            if(this.number.value === '') {
+            if(this.number.value === '' || this.number.value.length < 15 || this.number.value.length > 15) {
                 this.number.isValid = false;
                 this.formIsValid = false;
             }
-            if(this.email.value === '') {
+            if(this.email.value.includes('.')) {
+                this.email.isValid = true;
+                this.formIsValid = true;
+            } else {
                 this.email.isValid = false;
                 this.formIsValid = false;
             }
@@ -162,7 +172,7 @@ export default {
         },
         submitForm() {
             this.validateForm();
-            console.log("asdasd")
+            console.log(this.postalCode.value);
             if (!this.formIsValid) {
                 return;
             }
