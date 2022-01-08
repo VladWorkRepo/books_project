@@ -5,5 +5,8 @@ export default {
         const item = products.find(i => i.id === itemId);
 
         context.commit('addToCart', item);
+    },
+    removeFromCart(context) {
+        context.commit('removeFromCart');
     }
 };

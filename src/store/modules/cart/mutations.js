@@ -19,5 +19,10 @@ export default {
         } 
         state.quantity++;
         state.total += parseFloat(item.price.replace('$',''));
+    },
+    removeFromCart(state) {
+        state.items = [];
+        state.quantity = 0;
+        state.total = 0;
     }
 };

@@ -15,7 +15,10 @@
         </ul>
         <div class="summary">
             <p>Total: ${{ roundTotal }}</p>
-            <base-button link to="/cart/order">NEXT STEP</base-button>
+            <div>
+                <base-button link to="/cart/order">NEXT STEP</base-button>
+                <base-button @click="removeItems">REMOVE ITEMS</base-button>
+            </div>
         </div>
     </div>
     <p v-else>You have no products in the cart yet!</p>
@@ -38,6 +41,11 @@ export default {
         },
         roundTotal() {
             return this.total.toFixed(2);
+        }
+    },
+    methods: {
+        removeItems() {
+            this.$store.dispatch('cart/removeFromCart');
         }
     }
 }
