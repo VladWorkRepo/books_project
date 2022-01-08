@@ -1,4 +1,16 @@
 <template>
+    <base-dialog :show="formIsValid" title="THANKS FOR ORDER" @close="closeDialog">
+    <h3>SUMMARY:</h3>
+       <ul>
+              <li><span>First Name:</span> {{ name.value }}</li>
+              <li><span>Last Name:</span> {{ surname.value }}</li>
+              <li><span>Place:</span> {{ place.value }}</li>
+              <li><span>Postal Code:</span> {{ postalCode.value }}</li>
+              <li><span>Phone number:</span> {{ number.value }}</li>
+              <li><span>E-Mail:</span> {{ email.value }}</li>
+              <li><span>Total:</span> ${{ totalAfterDiscount }}</li>
+          </ul>
+    </base-dialog>
     <form @submit.prevent="submitForm">
         <div class="form-control" :class="{invalid: !name.isValid}">
             <label for="name">First Name</label>
@@ -67,7 +79,6 @@
         </div>
         <div class="form-control">
             <base-captcha @captcha-validation="checkValidation"></base-captcha>
-            <!-- <p v-if="!captchaIsValid">Captcha is invalid!</p> -->
         </div>
         <div class="discount_field" :class="{invalid: !discountCode.isValid}">
             <label for="discountCode" v-if="!discountCode.isValid">Invalid code.</label>
@@ -121,7 +132,7 @@ export default {
                 value: '',
                 isValid: true
             },
-            formIsValid: true,
+            formIsValid: false,
             total: (this.$store.getters['cart/total']).toFixed(2),
             discount: false,
             totalAfterDiscount: 0,
@@ -131,10 +142,8 @@ export default {
     methods: {
         checkValidation(captcha) {
             if(captcha) {
-                this.formIsValid = true;
                 this.captchaIsValid = true;
             } else {
-                 this.formIsValid = false;
                  this.captchaIsValid = false;
             }
         },
@@ -147,6 +156,7 @@ export default {
         checkDiscountCode() {
             this.discountCode.isValid = true;
             if(this.discountCode.value !== 'TUTORE12') {
+                this.totalAfterDiscount = this.total;
                 this.discountCode.isValid = false;
             } else {
                 this.totalAfterDiscount = (this.total -(this.total * 0.10)).toFixed(2);
@@ -189,8 +199,13 @@ export default {
         clearValidity(input) {
             this[input].isValid = true;
         },
+        closeDialog() {
+            this.formIsValid = false;
+            this.$router.replace('/home');
+        },
         submitForm() {
             this.validateForm();
+            this.totalAfterDiscount = this.total;
             if (!this.formIsValid) {
                 console.log("NOT SUBMITED");
                 return;
@@ -248,6 +263,14 @@ button {
 
 .invalid input {
   border: 1px solid red;
+}
+
+li {
+    margin-top: 7px;
+}
+
+span {
+    font-weight: 600;
 }
 
 
