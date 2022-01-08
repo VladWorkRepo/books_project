@@ -7,10 +7,6 @@
             <div class="product__text">
                 <h3>{{ title }}</h3>
                 <h5>Author: {{ author }}</h5>
-                <!-- <h6>Year: {{ year }}</h6>
-                <p>Description: <br> 
-                {{ description }}
-                </p> -->
             </div>
             <div class="summary">
                 <div class="price">${{ totalPrice }}</div>

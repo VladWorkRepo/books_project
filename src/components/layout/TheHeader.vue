@@ -4,8 +4,9 @@
       <h1>
         <router-link to="/">Books shop</router-link>
       </h1>
-      <div>
+      <div class="cartEl">
         <base-button link mode="flat" to="/cart">Go to Cart</base-button>
+        <span v-if="quantity!==0">{{ quantity }}</span> 
       </div>
     </nav>
   </header>
@@ -18,14 +19,11 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.isAuthenticated;
-    }
+    },
+    quantity() {
+      return this.$store.getters['cart/quantity'];
+    },
   },
-  methods: {
-    logout() {
-      this.$store.dispatch('logout');
-      this.$router.replace('/coaches');
-    }
-  }
 }
 </script>
 
@@ -75,5 +73,23 @@ header div {
   margin: 0 1rem;
   font-size: 25px;
   font-weight: 600;
+}
+
+.cartEl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+span {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: rgb(1, 68, 29) solid;
+  border-radius: 100%;
+  font-size: 20px;
+  color: #ffffff;
 }
 </style>

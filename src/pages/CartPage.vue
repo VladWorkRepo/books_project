@@ -29,11 +29,6 @@ export default {
     components: {
         CartItem
     },
-    data() {
-        return {
-
-        }
-    },
     computed: {
         booksItem() {
             return this.$store.getters['cart/products'];
