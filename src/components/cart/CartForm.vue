@@ -46,7 +46,7 @@
             <label for="number">Phone number</label>
             <input 
             type="tel" 
-            placeholder="+48 XXX XXX XXX" 
+            placeholder="+XX YYY YYY YYY" 
             pattern="[+]{1}[0-9]{2}[' ']{1}[0-9]{3}[' ']{1}[0-9]{3}[' ']{1}[0-9]{3}"
             id="number" 
             v-model.trim="number.value"
@@ -66,7 +66,8 @@
             <div v-if="!email.isValid">E-Mail field must not be empty (example joe@localhost.com).</div>
         </div>
         <div class="form-control">
-            <div>CAPTCHA WILL BE HERE</div>
+            <base-captcha @captcha-validation="checkValidation"></base-captcha>
+            <!-- <p v-if="!captchaIsValid">Captcha is invalid!</p> -->
         </div>
         <div class="discount_field" :class="{invalid: !discountCode.isValid}">
             <label for="discountCode" v-if="!discountCode.isValid">Invalid code.</label>
@@ -79,12 +80,17 @@
         </div>
         <h3 :class="discount ? 'divided' : ''">${{ total }}</h3>
         <h2 v-if="discount">${{ totalAfterDiscount }}</h2>
-        <base-button>SUBMIT</base-button>
+        <base-button>ORDER AND PAY</base-button>
     </form>
 </template>
 
 <script>
+import BaseCaptcha from '../ui/BaseCaptcha.vue';
+
 export default {
+    components: {
+        BaseCaptcha
+    },
     data() {
         return {
             name: {
@@ -116,12 +122,22 @@ export default {
                 isValid: true
             },
             formIsValid: true,
-            total: this.$store.getters['cart/total'],
+            total: (this.$store.getters['cart/total']).toFixed(2),
             discount: false,
-            totalAfterDiscount: 0
+            totalAfterDiscount: 0,
+            captchaIsValid: false
         }
     },
     methods: {
+        checkValidation(captcha) {
+            if(captcha) {
+                this.formIsValid = true;
+                this.captchaIsValid = true;
+            } else {
+                 this.formIsValid = false;
+                 this.captchaIsValid = false;
+            }
+        },
         postalCodeChecker(event) {
             if(event.target.value.length == 2) {
                event.target.value += '-';
@@ -166,16 +182,20 @@ export default {
                 this.email.isValid = false;
                 this.formIsValid = false;
             }
+            if(!this.captchaIsValid) {
+                 this.formIsValid = false;
+            }
         },
         clearValidity(input) {
             this[input].isValid = true;
         },
         submitForm() {
             this.validateForm();
-            console.log(this.postalCode.value);
             if (!this.formIsValid) {
+                console.log("NOT SUBMITED");
                 return;
             }
+            console.log("SUBMITED");
         }
     }
 }
@@ -218,7 +238,7 @@ button {
 }
 
 .discount_field {
-    margin-top: 10%;
+    margin-top: 7%;
     width: 25%;
 }
 
