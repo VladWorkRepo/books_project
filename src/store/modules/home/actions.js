@@ -1,5 +1,3 @@
-// do better responces with hooks/mixins
-
 export default {
     async loadBooks(context) {
         const response = await fetch('https://api.itbook.store/1.0/search/mongodb');

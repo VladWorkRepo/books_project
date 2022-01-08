@@ -11,9 +11,8 @@ const router = createRouter({
     { path: '/', redirect: '/home' },
     { path: '/home', component: HomePage },
     { path: '/cart', component: CartPage },
-    { path: '/cart/order', component: PlaceOrder },
+    { path: '/cart/order', component: PlaceOrder},
     { path: '/:notFound(.*)', component: NotFound}
   ]
 });
-
 export default router;

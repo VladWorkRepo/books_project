@@ -202,7 +202,10 @@ export default {
                 this.formIsValid = false;
             }
             if(!this.captchaIsValid) {
-                 this.formIsValid = false;
+                this.formIsValid = false;
+            }
+            if(this.total === 0) {
+                this.formIsValid = false;
             }
         },
         clearValidity(input) {
@@ -214,8 +217,6 @@ export default {
             setTimeout(function() {
                 window.location.reload(true);
             }, 1000)
-            
-            
         },
         submitForm() {
             this.validateForm();
