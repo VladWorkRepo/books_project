@@ -213,21 +213,20 @@ export default {
             this.$router.replace('/home');
             setTimeout(function() {
                 window.location.reload(true);
-            }, 2000)
+            }, 1000)
             
             
         },
         submitForm() {
             this.validateForm();
-    
             if (!this.formIsValid) {
                 console.log("NOT SUBMITED");
                 return;
             }
             console.log("SUBMITED");
-        }
+        },
     }
-}
+};
 </script>
 
 <style scoped>

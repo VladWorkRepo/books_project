@@ -7,5 +7,8 @@ export default {
     },
     quantity(state) {
         return state.quantity;
+    },
+    captcha(state) {
+        return state.captcha;
     }
 };

@@ -1,7 +1,7 @@
 <template>
      <div class="captcha-area">
       <div class="captcha-img">
-        <span class="captcha">{{ captcha }}</span>
+        <span class="captcha">{{ captchaText }}</span>
       </div>
       <button class="reload-btn" @click.prevent="refreshCaptcha"><i class='fas fa-redo-alt'></i></button>
     </div>
@@ -19,29 +19,25 @@ export default {
         return {
             userInput: '',
             status: '',
-            captcha: 'A s w a 2 w s',
-            allCharacters: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-                     'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
-                     'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-                     't', 'u', 'v', 'w', 'x', 'y', 'z', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-            randomCharacter: '',
             captchaJoined: '',
             captchaIsValid: false
         };
     },
+    computed: {
+        captchaText() {
+            return this.$store.getters['cart/captcha'];
+        }
+    },
     methods: {
         generateNewCaptcha() {
-             for (let i = 0; i < 6; i++) {
-                this.randomCharacter = this.allCharacters[Math.floor(Math.random() * this.allCharacters.length)];
-                this.captcha += `${this.randomCharacter} `;
-            }
+            this.$store.dispatch('cart/captchaGenerator');
         },
         refreshCaptcha() {
             this.removeContent();
             this.generateNewCaptcha();
         },
         checkCaptcha() {
-            this.captchaJoined = this.captcha.replace(/[ ]/gi, '');
+            this.captchaJoined = this.captchaText.replace(/[ ]/gi, '');
             if(this.userInput === this.captchaJoined) {
                 this.status = "Congratulations! You are human 👨";
                 this.captchaIsValid = true;

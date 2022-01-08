@@ -11,8 +11,8 @@ import CartForm from '../components/cart/CartForm.vue';
 export default {
     components: {
         CartForm
-    }
-}
+    },
+};
 </script>
 
 <style scoped>

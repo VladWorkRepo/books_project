@@ -25,5 +25,14 @@ export default {
         state.items = [];
         state.quantity = 0;
         state.total = 0;
+    },
+    captchaGenerator(state) {
+        let randomChars = [];
+        let captcha = '';
+        for (let i = 0; i < 6; i++) {
+            randomChars = state.allCharacters[Math.floor(Math.random() * state.allCharacters.length)];
+            captcha += `${randomChars} `;
+        }
+        state.captcha = captcha;
     }
 };

@@ -48,12 +48,16 @@ export default {
             } catch(error) {
                 this.error = error.message || 'Something went wrong!';
             }
+        },
+        genCaptcha() {
+            this.$store.dispatch('cart/captchaGenerator');
         }
     },
     created() {
         this.loadBooks();
         this.loadCurrency();
-    }
+        this.genCaptcha();
+    },
 }
 </script>
 

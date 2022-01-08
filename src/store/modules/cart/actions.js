@@ -8,5 +8,8 @@ export default {
     },
     removeFromCart(context) {
         context.commit('removeFromCart');
+    },
+    captchaGenerator(context) {
+        context.commit('captchaGenerator');
     }
 };
