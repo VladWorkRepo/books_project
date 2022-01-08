@@ -211,6 +211,11 @@ export default {
         closeDialog() {
             this.formIsValid = false;
             this.$router.replace('/home');
+            setTimeout(function() {
+                window.location.reload(true);
+            }, 2000)
+            
+            
         },
         submitForm() {
             this.validateForm();
