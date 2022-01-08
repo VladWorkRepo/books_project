@@ -8,7 +8,7 @@
               <li><span>Postal Code:</span> {{ postalCode.value }}</li>
               <li><span>Phone number:</span> {{ number.value }}</li>
               <li><span>E-Mail:</span> {{ email.value }}</li>
-              <li><span>Total:</span> ${{ totalAfterDiscount }}</li>
+              <li><span>Total:</span> {{ summaryTotal }} zł</li>
           </ul>
     </base-dialog>
     <form @submit.prevent="submitForm">
@@ -89,8 +89,8 @@
             v-model.trim="discountCode.value">
             <button v-if="!discount" @click.prevent="checkDiscountCode">Check code</button>
         </div>
-        <h3 :class="discount ? 'divided' : ''">${{ total }}</h3>
-        <h2 v-if="discount">${{ totalAfterDiscount }}</h2>
+        <h3 :class="discount ? 'divided' : ''">PLN {{ convertTotal }}</h3>
+        <h2 v-if="discount">PLN {{ totalAfterDiscount }}</h2>
         <base-button>ORDER AND PAY</base-button>
     </form>
 </template>
@@ -134,9 +134,18 @@ export default {
             },
             formIsValid: false,
             total: (this.$store.getters['cart/total']).toFixed(2),
+            currency: this.$store.getters['order/currency'],
             discount: false,
             totalAfterDiscount: 0,
             captchaIsValid: false
+        }
+    },
+    computed: {
+        summaryTotal() {
+            return this.discount ? this.totalAfterDiscount : this.convertTotal;
+        },
+        convertTotal() {
+            return (this.total * this.currency[1].mid).toFixed(2);
         }
     },
     methods: {
@@ -156,10 +165,10 @@ export default {
         checkDiscountCode() {
             this.discountCode.isValid = true;
             if(this.discountCode.value !== 'TUTORE12') {
-                this.totalAfterDiscount = this.total;
+                this.totalAfterDiscount = (this.total * this.currency[1].mid).toFixed(2);
                 this.discountCode.isValid = false;
             } else {
-                this.totalAfterDiscount = (this.total -(this.total * 0.10)).toFixed(2);
+                this.totalAfterDiscount = ((this.total -(this.total * 0.10))*this.currency[1].mid).toFixed(2);
                 this.discount = true;
             }
         },
@@ -205,7 +214,7 @@ export default {
         },
         submitForm() {
             this.validateForm();
-            this.totalAfterDiscount = this.total;
+    
             if (!this.formIsValid) {
                 console.log("NOT SUBMITED");
                 return;

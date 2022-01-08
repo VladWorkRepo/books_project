@@ -41,10 +41,18 @@ export default {
                 this.error = error.message || 'Something went wrong!';
             }
             this.isLoading = false;
+        },
+         async loadCurrency() {
+            try {
+                await this.$store.dispatch('order/loadCurrency');
+            } catch(error) {
+                this.error = error.message || 'Something went wrong!';
+            }
         }
     },
     created() {
         this.loadBooks();
+        this.loadCurrency();
     }
 }
 </script>

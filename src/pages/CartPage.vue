@@ -41,7 +41,7 @@ export default {
         },
         roundTotal() {
             return this.total.toFixed(2);
-        }
+        },
     },
     methods: {
         removeItems() {

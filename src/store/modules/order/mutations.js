@@ -1,1 +1,5 @@
-export default {};
+export default {
+    setCurrency(state, payload) {
+        state.currency = payload;
+    }
+};
