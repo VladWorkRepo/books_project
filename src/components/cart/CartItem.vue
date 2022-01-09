@@ -10,7 +10,11 @@
             </div>
             <div class="summary">
                 <div class="price">${{ totalPrice }}</div>
-                <div class="qty">Quantity: {{ quantity }}</div>
+                <div class="qty-actions">
+                  <div @click="increase" class="plus-alt"></div>
+                  <div class="qty">Quantity: {{ quantity }}</div>
+                  <div @click="decrease" class="minus-alt"></div>
+                </div>
             </div>
         </div>
     </li>
@@ -23,7 +27,15 @@ export default {
         totalPrice() {
             return (this.price * this.quantity).toFixed(2);
         }
-    }
+    },
+    methods: {
+      increase() {
+        this.$store.dispatch('cart/increase', {id: this.id});
+      },
+      decrease() {
+        this.$store.dispatch('cart/decrease', {id: this.id});
+      }
+    },
 }
 </script>
 
@@ -65,7 +77,7 @@ p {
 
 .summary {
     display: flex;
-    width: 30%;
+    width: 40%;
     padding: 10px 15px 10px 15px;
     flex-direction: column;
     justify-content: space-between;
@@ -75,6 +87,39 @@ p {
 .price {
     font-size: 22px;
     font-weight: 700;
+}
+
+.qty-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.qty-actions .qty {
+    text-align: center;
+    width: 80%;
+}
+
+.plus-alt {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(#000 0 0),
+              linear-gradient(#000 0 0);
+  background-position: center;
+  background-size: 50% 2px, 2px 50%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.minus-alt {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(#000 0 0);
+  background-position: center;
+  background-size: 50% 2px;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 

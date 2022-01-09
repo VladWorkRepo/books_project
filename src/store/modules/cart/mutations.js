@@ -20,6 +20,35 @@ export default {
         state.quantity++;
         state.total += parseFloat(item.price.replace('$',''));
     },
+    increase(state, payload) {
+        const item = payload;
+        const itemInCartIndex = state.items.findIndex(index => index.id === item.id);
+        
+        if(state.items[itemInCartIndex].quantity === 10) {
+            state.items[itemInCartIndex].quantity = 10;
+        } else {
+            state.items[itemInCartIndex].quantity++;
+            state.total += parseFloat(state.items[itemInCartIndex].price);
+            state.quantity++;
+        }
+    },
+    decrease(state, payload) {
+        const item = payload;
+        const itemInCartIndex = state.items.findIndex(index => index.id === item.id);
+        
+        if(state.items[itemInCartIndex].quantity > 0) {
+            state.items[itemInCartIndex].quantity--;
+            state.total -= parseFloat(state.items[itemInCartIndex].price);
+            state.quantity--;
+            if(state.items[itemInCartIndex].quantity === 0){
+                //state.items[itemInCartIndex].quantity = 0;
+                state.items.splice(itemInCartIndex, 1);
+            }
+        }
+    },
+    // removeOneElemnt(state) {
+    //     state.items.splice(itemInCartIndex, 1);
+    // },
     removeFromCart(state) {
         state.items = [];
         state.quantity = 0;
@@ -33,5 +62,5 @@ export default {
             captcha += `${randomChars} `;
         }
         state.captcha = captcha;
-    }
+    },
 };

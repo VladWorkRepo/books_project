@@ -28,7 +28,6 @@
 <script>
 import CartItem from '../components/cart/CartItem.vue';
 export default {
-
     components: {
         CartItem
     },

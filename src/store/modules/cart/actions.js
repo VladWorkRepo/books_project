@@ -11,5 +11,11 @@ export default {
     },
     captchaGenerator(context) {
         context.commit('captchaGenerator');
+    },
+    increase(context, payload) {
+        context.commit('increase', payload);
+    },
+    decrease(context, payload) {
+        context.commit('decrease', payload);
     }
 };
